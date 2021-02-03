@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+  </head>
+  <body>
+    <h1>Form Basics</h1>
+    
+    <p id="uptonSinclairQuote">
+It is difficult to get a man to understand something, when his salary depends upon his not understanding it! -- Upton Sinclair
+    </p>
+
+    <form id="form1" name="form1">
+        <label for="text1">Input:</label>
+        <input type="text" id="text1" name="text1" />
+        <label for="radio1">Red</label>
+        <input type="radio" name="radio1" value="red" />
+        <label for="radio1">Green</label>
+        <input type="radio" name="radio1" value="green" />
+        <label for="radio1">Blue</label>
+        <input type="radio" name="radio1" value="blue" />
+        <label for="select1">Day of the Week:</label>
+        <select id="select1" name="select1" onchange="console.log('select option:checked')">
+            <option value=""></option>
+            <option value="Mon">Mon</option>
+            <option value="Wed">Wed</option>
+            <option value="Fri">Fri</option>
+        </select>
+        <label for="textarea1">Additional:</label>
+        <textarea id="textarea1" name="textarea1" placeholder="Please provide any additional feedback"></textarea>
+    </form>
+
+    <script>
+        document.querySelector("#text1").value = "Adrian Zavala";
+        document.querySelector("input[value=green]").checked = "true";
+        document.querySelector("#textarea1").value = document.querySelector("#uptonSinclairQuote").innerHTML;
+    </script>
+  </body>
+</html>
