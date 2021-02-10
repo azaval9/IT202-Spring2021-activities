@@ -2,7 +2,8 @@
 
 let CACHE_NAME = 'my-site-cache-v1';
 let urlsToCache = [
-  '/'
+  './',
+  './icons/icon-192x192.png'
 ];
 
 
