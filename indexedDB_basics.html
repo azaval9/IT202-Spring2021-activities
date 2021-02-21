@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+  <head>
+      <!-- Include Dexie -->
+      <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+
+      <script>
+          //
+          // Define your database
+          //
+          var db = new Dexie("school_db");
+          db.version(1).stores({
+              schools: 'long_name,student_attainment_rating,student_attendance_year_1,school_type'
+          });
+
+        fetch('https://data.cityofchicago.org/resource/dw27-rash.json')
+        .then(response => {return response.json()})
+        .then(json => {
+            //store information
+            for(let row of json){
+                let name = row["long_name"];
+                let rating = row["student_attainment_rating"];
+                let yearOne = parseFloat(row["student_attendance_year_1"]);
+                let schoolType = "";
+                if( row["school_type"] == null ){ 
+                    schoolType = "Unknown";
+                }
+
+                db.schools.put({long_name: name, student_attainment_rating: rating, student_attendance_year_1: yearOne, school_type: schoolType}).then (function(){
+                //
+                // Then when data is stored, read from it
+                //
+                return db.schools.get(name);
+                }).then(function (school) {
+                //
+                // Display the result
+                //
+                //alert ("length " + school.length);
+                }).catch(function(error) {
+                alert ("Ooops: " + error);
+                });
+            }
+        });
+            
+            db.schools.count().then(function (number){
+                let d = document.createElement("div");
+                d.innerText = "Total number of schools: " + number;
+                document.querySelector("body").appendChild(d);
+            }).catch(function(error) {
+                alert ("Ooops: " + error);
+            });
+            
+            db.schools.where("student_attainment_rating").equals("AVERAGE").count().then(function (number){
+                let d = document.createElement("div");
+                d.innerText = "Student attainment rating: " + number;
+                document.querySelector("body").appendChild(d);
+            }).catch(function(error) {
+                alert ("Ooops: " + error);
+            });
+
+            db.schools.where("student_attendance_year_1").aboveOrEqual(98.0)
+                .each( function (row) {
+                    let d = document.createElement("div");
+                    d.innerText = "School name with student attendance above or equal to 98%: " + row["long_name"];
+                    document.querySelector("body").appendChild(d);
+            });
+
+            db.schools.where("long_name").startsWith("K")
+                .each( function (row) {
+                    let d = document.createElement("div");
+                    d.innerText = "School that starts with a K: " + row["long_name"];
+                    document.querySelector("body").appendChild(d);
+            });
+            
+            db.schools.where("school_type").notEqual("Charter").count().then( function (number){
+                    let d = document.createElement("div");
+                    d.innerText = "Schools that are not Charter schools: " + number;
+                    document.querySelector("body").appendChild(d);
+            });
+
+      </script>
+  </head>
+</html>
