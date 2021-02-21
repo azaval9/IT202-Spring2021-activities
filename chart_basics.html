@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Include Dexie -->
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        
+        fetch('https://data.cityofchicago.org/resource/dw27-rash.json?$SELECT=school_type,count(school_type)&$GROUP=school_type')
+        .then(response => {return response.json()})
+        .then(json => {
+                // Load the Visualization API and the corechart package.
+                google.charts.load('current', {'packages':['corechart']});
+
+                // Set a callback to run when the Google Visualization API is loaded.
+                google.charts.setOnLoadCallback(drawChart);
+
+                // Callback that creates and populates a data table,
+                // instantiates the pie chart, passes in the data and
+                // draws it.
+                function drawChart() {
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'School_Name');
+                    data.addColumn('number', 'Count');
+                
+                    // Set chart options
+                    var options = {'title':'Chicago School Types',
+                            'width':600,
+                            'height':600};
+
+                    // Instantiate and draw our chart, passing in some options.
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    
+                
+
+                    for(let row of json){
+                        data.addRows([
+                            [row["school_type"], parseInt(row["count_school_type"])]
+                        ]);
+                    }
+                    chart.draw(data, options);
+                }   
+            });
+
+        fetch('https://data.cityofchicago.org/resource/553k-3xzc.json?$SELECT=date,sum(total_doses_cumulative)&$GROUP=date&$ORDER=date')
+        .then(response => {return response.json()})
+        .then(json => {
+            // Load the Visualization API and the corechart package.
+            google.charts.load('current', {'packages':['line']});
+                // Set a callback to run when the Google Visualization API is loaded.
+                google.charts.setOnLoadCallback(drawChart);
+
+                // Callback that creates and populates a data table,
+                // instantiates the pie chart, passes in the data and
+                // draws it.
+                function drawChart() {
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Date');
+                    data.addColumn('number', 'Total Vaccines');
+                
+                    // Set chart options
+                    var options = {'title':'COVID-19 Vaccine Doses',
+                            'width':1000,
+                            'height':600};
+
+                    // Instantiate and draw our chart, passing in some options.
+                    var chart = new google.charts.Line(document.getElementById('linechart_div'));
+                    
+                
+
+                    for(let row of json){
+                        data.addRows([
+                            [row["date"], parseInt(row["sum_total_doses_cumulative"])]
+                        ]);
+                    }
+                    chart.draw(data, google.charts.Line.convertOptions(options));
+                }   
+            });
+            
+    </script>
+  </head>
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>\
+    <div id="linechart_div"></div>
+  </body>
+</html>
+
