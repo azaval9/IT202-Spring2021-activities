@@ -1,7 +1,7 @@
 document.addEventListener(
     "DOMContentLoaded",
     () => {
-        var canvas = document.getElementById("html-canvas");
+        var canvas = document.querySelector("canvas");
         var circles = [];
         var radius = 50;
         canvas.width = canvas.clientWidth;
