@@ -1,83 +1,79 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>DOM Manipulation</title>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>DOM Manipulation</title>
 
-    <style>
-      .big {font-size:3em; }
-      .blue {color: blue;}
-      .bigBorder {border: black 3px solid;}
-    </style>
+        <style>
+            .big {
+                font-size: 3em;
+            }
+            .blue {
+                color: blue;
+            }
+            .bigBorder {
+                border: black 3px solid;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="div1" class="bigBorder"></div>
+        <div id="div2">
+            <img src="" />
+        </div>
+        <div id="div3">This div should be programmatically removed.</div>
 
-  </head>
-  <body>
+        <ul>
+            <li class="big blue">IT202</li>
+        </ul>
 
-    <div id="div1" class="bigBorder" ></div>
-    <div id="div2">
-      <img src="">
-    </div>
-    <div id="div3">
-      This div should be programmatically removed.
-    </div>
+        <script>
+            // your code here
 
-    <ul>
-      <li class="big blue">IT202</li>
-    </ul>
+            //1
+            document.querySelector("#div1").innerHTML = "UIC";
 
-    <script>
-      // your code here
+            //2
+            document.querySelector("#div1").style.color = "#D50032";
 
-      //1
-      document.getElementById("div1").innerHTML = "UIC";
+            //3
+            document.querySelector("#div1").classList.add("big");
 
-      //2
-      document.getElementById("div1").style.color = "#D50032";
+            //4
+            document.querySelector("img").src =
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/University_of_Illinois_at_Chicago_circle_logo.svg/1200px-University_of_Illinois_at_Chicago_circle_logo.svg.png";
 
-      //3
-      document.getElementById("div1").classList.add("big");
+            //5
+            document.querySelector("img").style.width = "25%";
+            document.querySelector("img").style.height = "25%";
 
-      //4
-      document.getElementById("div2").childNodes[1].src = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/University_of_Illinois_at_Chicago_circle_logo.svg/1200px-University_of_Illinois_at_Chicago_circle_logo.svg.png"
-      
-      //5
-      document.getElementById("div2").childNodes[1].style.width = "25%";
-      document.getElementById("div2").childNodes[1].style.height = "25%";
+            //6
+            document.querySelector("#div3").remove();
 
-      //6
-      document.getElementById("div3").remove();
+            //7
+            document.title = "azaval9";
 
-      //7
-      document.title = "azaval9";
+            //8
+            let listItem = document.createElement("li");
 
-      //8 
-        var listItem = document.createElement("li");
-        document.body.append(listItem);
+            //9
+            listItem.innerHTML = "Computer Science";
 
-      //9
-      listItem.innerText = "Computer Science";
+            //10
+            document.querySelector("ul").appendChild(listItem);
 
-      //10
-      var list = document.getElementsByTagName("ul")[0];
-        list.append(listItem);
+            //11
+            document.querySelector("li").classList.remove("big");
 
-      //11
-        list.getElementsByTagName("li")[0].classList.remove("big");
-      
-      //12
-      list.getElementsByTagName("li")[1].classList.add("blue");
+            //12
+            document.querySelectorAll("li")[1].classList.add("blue");
 
-      //13
-        let divClone = div1.cloneNode(true);
-        divClone.querySelector('div1');
+            //13
+            let cloneImg = document.querySelector("img").cloneNode(true);
 
-      //14
-        div1.after(divClone);
-
-
-    </script>
-
-
-  </body>
+            //14
+            document.querySelector("#div1").append(cloneImg);
+        </script>
+    </body>
 </html>
