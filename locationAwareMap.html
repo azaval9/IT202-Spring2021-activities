@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+        <script>
+            function addGeolocationText(lat, lng) {
+                let description = document.querySelector("#locations");
+                let clone = description.cloneNode(true);
+                let myDate = new Date();
+                clone.innerHTML =
+                    "{lat: " + lat + ", lng: " + lng + "} " + myDate;
+                description.append(clone);
+            }
+
+            let map;
+            function initMap() {
+                //get current location
+                if ("geolocation" in navigator) {
+                    /* geolocation is available */
+                    console.log("avil");
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        map = new google.maps.Map(
+                            document.getElementById("map"),
+                            {
+                                center: {
+                                    lat: position.coords.latitude,
+                                    lng: position.coords.longitude,
+                                },
+                                zoom: 16,
+                            }
+                        );
+                        new google.maps.Circle({
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 0,
+                            strokeWeight: 2,
+                            fillColor: "#FF0000",
+                            fillOpacity: 1,
+                            map,
+                            center: {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude,
+                            },
+                            radius: 6,
+                        });
+
+                        // addGeolocationText(
+                        //     position.coords.latitude,
+                        //     position.coords.longitude
+                        // );
+                    });
+                } else {
+                    /* geolocation IS NOT available */
+                    console.log("not avil");
+                }
+            }
+
+            function success(position) {
+                //add circle to the map
+
+                //call geo text
+                addGeolocationText(
+                    position.coords.latitude,
+                    position.coords.longitude
+                );
+            }
+
+            function error() {
+                alert("Sorry, no position available.");
+            }
+
+            const options = {
+                enableHighAccuracy: true,
+                maximumAge: 30000,
+                timeout: 27000,
+            };
+
+            const watchID = navigator.geolocation.watchPosition(
+                success,
+                error,
+                options
+            );
+        </script>
+        <script
+            async
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4UQW0mfxEBjkCQ9rTvY4Mw6g2Mjw4pg&callback=initMap"
+        ></script>
+        <style>
+            #map {
+                height: 100%;
+            }
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                width: 80%;
+                height: 80%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div id="map"></div>
+            <div id="locations"></div>
+        </div>
+    </body>
+</html>
