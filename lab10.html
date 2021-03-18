@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <script>
+            //document.querySelector("#btnSpeak").disabled = "true";
+            // var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+            // var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+            // var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+
+            //var recognition = new SpeechRecognition();
+            //var speechRecognitionList = new SpeechGrammarList();
+
+            let synth = window.speechSynthesis;
+            window.speechSynthesis.onvoiceschanged = function () {
+                let voices = window.speechSynthesis.getVoices();
+                voices.forEach((voice) => {
+                    let select = document.querySelector("#sltLanguage");
+                    let newOption = document.createElement("option");
+                    newOption.innerHTML = voice.lang;
+                    select.append(newOption);
+                });
+            };
+        </script>
+    </head>
+
+    <body>
+        <input type="text" id="inputText" placeholder="Enter text here" />
+
+        <label for="language">Choose a language:</label>
+        <select name="language" id="sltLanguage">
+            <option></option>
+            <!-- options will be added dynamically -->
+        </select>
+
+        <button id="btnSpeak" disabled>Speak</button>
+
+        <script>
+            document
+                .querySelector("#sltLanguage")
+                .addEventListener("change", (event) => {
+                    if (event.currentTarget.selectedOptions[0].value == "") {
+                        document.querySelector("#btnSpeak").disabled = true;
+                    } else {
+                        document.querySelector("#btnSpeak").disabled = false;
+                    }
+                    console.log("hello");
+                });
+
+            document
+                .querySelector("#btnSpeak")
+                .addEventListener("click", (event) => {
+                    let userText = document.querySelector("#inputText").value;
+                    let userLanguage = document.querySelector("#sltLanguage")
+                        .selectedOptions[0].value;
+                    let utterThis = new SpeechSynthesisUtterance(userText);
+
+                    window.speechSynthesis.onvoiceschanged = function () {
+                        let voices = window.speechSynthesis.getVoices();
+                        voices.forEach((voice) => {
+                            if (userLanguage === voice.lang) {
+                                utterThis.voice = voice;
+                            }
+                        });
+                    };
+                    synth.speak(utterThis);
+                    document.querySelector("#inputText").value = "";
+                });
+        </script>
+    </body>
+</html>
