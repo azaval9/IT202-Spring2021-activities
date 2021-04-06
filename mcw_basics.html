@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>mcw_basics</title>
+        <meta name="description" content="Activity for IT202" />
+        <meta name="author" content="Adrian Zavala" />
+        <link
+            href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    </head>
+
+    <body>
+        <label class="mdc-text-field mdc-text-field--outlined">
+            <span class="mdc-notched-outline">
+                <span class="mdc-notched-outline__leading"></span>
+                <span class="mdc-notched-outline__notch">
+                    <span class="mdc-floating-label" id="my-label-id"
+                        >Your Name</span
+                    >
+                </span>
+                <span class="mdc-notched-outline__trailing"></span>
+            </span>
+            <input
+                type="text"
+                class="mdc-text-field__input"
+                aria-labelledby="my-label-id"
+            />
+        </label>
+        <button class="mdc-button foo-button">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Button</span>
+        </button>
+    </body>
+
+    <script>
+        //mdc.ripple.MDCRipple.attachTo(document.querySelector(".mdc-button"));
+        //document.querySelector("#inputLabel").innerHTML = "Enter your name";
+        //document.querySelector("#mdcButton").innerHTML = "SHOW SNACKBAR";
+        mdc.ripple.MDCRipple.attachTo(document.querySelector(".foo-button"));
+        // import { MDCRipple } from "@material/ripple/index";
+        // const textField = new MDCTextField(
+        //     document.querySelector(".mdc-text-field")
+        // );
+    </script>
+</html>
